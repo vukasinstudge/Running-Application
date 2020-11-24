@@ -51,7 +51,7 @@ public class RouteBrowseFragment extends Fragment {
 
         routeViewModel.getSelectedRoute().observe(getViewLifecycleOwner(), selectedRoute -> {
             if (selectedRoute != null) {
-                navController.navigate(R.id.route_details);
+                navController.navigate(R.id.action_show_route_details);
             }
         });
 
