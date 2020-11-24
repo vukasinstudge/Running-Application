@@ -3,6 +3,8 @@ package rs.ac.bg.etf.running;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
 
 import android.os.Bundle;
 
@@ -18,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
     private RouteViewModel routeViewModel;
+    private NavController navController;
 
     private FragmentManager fragmentManager;
 
@@ -31,13 +34,17 @@ public class MainActivity extends AppCompatActivity {
 
         fragmentManager = getSupportFragmentManager();
 
+        NavHostFragment navHost = (NavHostFragment) fragmentManager
+                .findFragmentById(R.id.nav_host_fragment);
+        navController = navHost.getNavController();
+
         binding.bottomNavigation.setOnNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 case R.id.menu_item_routes:
-
+                    navController.navigate(R.id.route_browse);
                     return true;
                 case R.id.menu_item_calories:
-
+                    navController.navigate(R.id.calories);
                     return true;
             }
             return false;
