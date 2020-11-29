@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         fragmentManager = getSupportFragmentManager();
 
         NavHostFragment navHost = (NavHostFragment) fragmentManager
-                .findFragmentById(R.id.nav_host_fragment);
+                .findFragmentById(R.id.nav_host_container);
         navController = navHost.getNavController();
 
         binding.bottomNavigation.setOnNavigationItemSelectedListener(item -> {
