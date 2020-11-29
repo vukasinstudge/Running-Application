@@ -1,5 +1,7 @@
 package rs.ac.bg.etf.running.routes;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -50,22 +52,32 @@ public class RouteBrowseFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(
+            @NonNull LayoutInflater inflater,
+            ViewGroup container,
+            Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentRouteBrowseBinding.inflate(inflater, container, false);
 
-        getViewLifecycleOwner().getLifecycle().addObserver(new LifecycleAwareLogger(
-                MainActivity.LOG_TAG,
-                RouteBrowseFragment.class.getSimpleName() + "View"));
-
         RouteAdapter routeAdapter = new RouteAdapter(
-                mainActivity,
+                routeViewModel,
                 routeIndex -> {
                     ActionShowRouteDetails action =
                             RouteBrowseFragmentDirections.actionShowRouteDetails();
                     action.setRouteIndex(routeIndex);
                     navController.navigate(action);
+                },
+                routeIndex -> {
+                    String locationString = routeViewModel.getRoutes().get(routeIndex).getLocation();
+                    locationString = locationString.replace(" ", "%20");
+                    locationString = locationString.replace(",", "%2C");
+                    Uri locationUri = Uri.parse("geo:0,0?q=" + locationString);
+
+                    Intent intent = new Intent();
+                    intent.setAction(Intent.ACTION_VIEW);
+                    intent.setData(locationUri);
+
+                    mainActivity.startActivity(intent);
                 }
         );
 
