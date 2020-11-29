@@ -15,6 +15,7 @@
     <string name="route_button_label_location">Lokacija</string>
 
     <!-- Calories -->
+    <string name="calories_toolbar_label">Kalkulator kalorija</string>
     <string name="calories_weight">Težina</string>
     <string name="calories_height">Visina</string>
     <string name="calories_age">Starost</string>
