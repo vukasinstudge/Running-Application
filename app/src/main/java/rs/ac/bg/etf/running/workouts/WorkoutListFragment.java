@@ -12,11 +12,13 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import dagger.hilt.android.AndroidEntryPoint;
 import rs.ac.bg.etf.running.MainActivity;
+import rs.ac.bg.etf.running.R;
 import rs.ac.bg.etf.running.databinding.FragmentWorkoutListBinding;
 import rs.ac.bg.etf.running.workouts.WorkoutViewModel;
 
@@ -47,6 +49,15 @@ public class WorkoutListFragment extends Fragment {
             Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentWorkoutListBinding.inflate(inflater, container, false);
+
+        binding.toolbar.inflateMenu(R.menu.workout_list_options_menu);
+        binding.toolbar.setOnMenuItemClickListener(menuItem -> {
+            switch (menuItem.getItemId()) {
+                case R.id.workout_menu_item_sort:
+                    return true;
+            }
+            return false;
+        });
 
         WorkoutAdapter workoutAdapter = new WorkoutAdapter();
         workoutViewModel.getWorkoutList().observe(
