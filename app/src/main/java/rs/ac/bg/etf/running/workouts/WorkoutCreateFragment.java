@@ -5,7 +5,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -21,13 +20,13 @@ import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Date;
 
+import dagger.hilt.android.AndroidEntryPoint;
 import rs.ac.bg.etf.running.MainActivity;
 import rs.ac.bg.etf.running.R;
-import rs.ac.bg.etf.running.data.RunDatabase;
 import rs.ac.bg.etf.running.data.Workout;
-import rs.ac.bg.etf.running.data.WorkoutRepository;
 import rs.ac.bg.etf.running.databinding.FragmentWorkoutCreateBinding;
 
+@AndroidEntryPoint
 public class WorkoutCreateFragment extends Fragment {
 
     public static final String REQUEST_KEY = "date-picker-request";
@@ -46,16 +45,6 @@ public class WorkoutCreateFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         mainActivity = (MainActivity) requireActivity();
-
-        RunDatabase runDatabase = RunDatabase.getInstance(mainActivity);
-        WorkoutRepository workoutRepository = new WorkoutRepository(runDatabase.workoutDao());
-        ViewModelProvider.Factory factory = new ViewModelProvider.Factory() {
-            @NonNull
-            @Override
-            public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-                return (T) new WorkoutViewModel(workoutRepository);
-            }
-        };
         workoutViewModel = new ViewModelProvider(mainActivity).get(WorkoutViewModel.class);
     }
 

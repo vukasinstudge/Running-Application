@@ -5,8 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
+import dagger.hilt.android.AndroidEntryPoint;
 import rs.ac.bg.etf.running.databinding.ActivityMainBinding;
 
+@AndroidEntryPoint
 public class MainActivity extends AppCompatActivity {
 
     public static final String LOG_TAG = "running-app-example";

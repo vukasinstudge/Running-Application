@@ -4,10 +4,13 @@ import androidx.lifecycle.LiveData;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 public class WorkoutRepository {
 
     private final WorkoutDao workoutDao;
 
+    @Inject
     public WorkoutRepository(WorkoutDao workoutDao) {
         this.workoutDao = workoutDao;
     }
