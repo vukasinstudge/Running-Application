@@ -18,4 +18,7 @@ public interface WorkoutDao {
 
     @Query("SELECT * FROM Workout")
     LiveData<List<Workout>> getAllLiveData();
+
+    @Query("SELECT * FROM Workout ORDER BY distance DESC")
+    LiveData<List<Workout>> getAllSortedLiveData();
 }
