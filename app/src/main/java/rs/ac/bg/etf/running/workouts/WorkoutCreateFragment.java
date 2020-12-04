@@ -1,5 +1,6 @@
 package rs.ac.bg.etf.running.workouts;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,10 +14,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.Date;
+
 import rs.ac.bg.etf.running.MainActivity;
 import rs.ac.bg.etf.running.databinding.FragmentWorkoutCreateBinding;
 
 public class WorkoutCreateFragment extends Fragment {
+
+    public static final String REQUEST_KEY = "date-picker-request";
 
     private FragmentWorkoutCreateBinding binding;
     private WorkoutViewModel workoutViewModel;
@@ -45,6 +50,16 @@ public class WorkoutCreateFragment extends Fragment {
 
         binding.toolbar.setNavigationOnClickListener(
                 view -> navController.navigateUp());
+
+        binding.workoutDateEditText.setOnClickListener(
+                view -> new DatePickerFragment().show(getChildFragmentManager(), null));
+
+        getChildFragmentManager().setFragmentResultListener(REQUEST_KEY, this,
+                (requestKey, result) -> {
+                    Date date = (Date) result.getSerializable(DatePickerFragment.SET_DATE_KEY);
+                    String dateForEditText = DateTimeUtil.getSimpleDateFormat().format(date);
+                    binding.workoutDate.getEditText().setText(dateForEditText);
+                });
 
         return binding.getRoot();
     }
