@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -70,6 +71,15 @@ public class WorkoutStartFragment extends Fragment {
 
         binding.start.setOnClickListener(view -> startWorkout(new Date().getTime()));
 
+        mainActivity.getOnBackPressedDispatcher().addCallback(
+                getViewLifecycleOwner(),
+                new OnBackPressedCallback(true) {
+                    @Override
+                    public void handleOnBackPressed() {
+                        stopWorkout();
+                    }
+                });
+
         return binding.getRoot();
     }
 
@@ -116,6 +126,11 @@ public class WorkoutStartFragment extends Fragment {
                 handler.post(() -> binding.workoutDuration.setText(workoutDuration));
             }
         }, 0, 10);
+    }
+
+    private void stopWorkout() {
+        sharedPreferences.edit().remove(START_TIMESTAMP_KEY).commit();
+        navController.navigateUp();
     }
 
 }
