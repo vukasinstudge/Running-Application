@@ -1,5 +1,7 @@
 package rs.ac.bg.etf.running.workouts;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -26,12 +28,16 @@ import rs.ac.bg.etf.running.databinding.FragmentWorkoutStartBinding;
 @AndroidEntryPoint
 public class WorkoutStartFragment extends Fragment {
 
+    private static final String SHARED_PREFERENCES_NAME = "workout-shared-preferences";
+    private static final String START_TIMESTAMP_KEY = "start-timestamp-key";
+
     private FragmentWorkoutStartBinding binding;
     private WorkoutViewModel workoutViewModel;
     private NavController navController;
     private MainActivity mainActivity;
 
     private Timer timer;
+    private SharedPreferences sharedPreferences;
 
     public WorkoutStartFragment() {
         // Required empty public constructor
@@ -43,6 +49,9 @@ public class WorkoutStartFragment extends Fragment {
 
         mainActivity = (MainActivity) requireActivity();
         workoutViewModel = new ViewModelProvider(mainActivity).get(WorkoutViewModel.class);
+
+        sharedPreferences = mainActivity
+                .getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
     }
 
     @Override
@@ -54,6 +63,10 @@ public class WorkoutStartFragment extends Fragment {
         binding = FragmentWorkoutStartBinding.inflate(inflater, container, false);
 
         timer = new Timer();
+
+        if (sharedPreferences.contains(START_TIMESTAMP_KEY)) {
+            startWorkout(sharedPreferences.getLong(START_TIMESTAMP_KEY, new Date().getTime()));
+        }
 
         binding.start.setOnClickListener(view -> startWorkout(new Date().getTime()));
 
@@ -77,6 +90,10 @@ public class WorkoutStartFragment extends Fragment {
         binding.finish.setEnabled(true);
         binding.cancel.setEnabled(true);
         binding.power.setEnabled(true);
+
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putLong(START_TIMESTAMP_KEY, startTimestamp);
+        editor.commit();
 
         Handler handler = new Handler(Looper.getMainLooper());
 
