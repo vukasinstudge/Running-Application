@@ -18,7 +18,6 @@ import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import java.util.Date;
 import java.util.Timer;
@@ -170,5 +169,4 @@ public class WorkoutStartFragment extends Fragment {
         sharedPreferences.edit().remove(START_TIMESTAMP_KEY).commit();
         navController.navigateUp();
     }
-
 }

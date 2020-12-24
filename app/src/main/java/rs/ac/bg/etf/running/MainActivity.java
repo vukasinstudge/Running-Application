@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import dagger.hilt.android.AndroidEntryPoint;
@@ -16,7 +15,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String LOG_TAG = "running-app-example";
 
-    public static final String INTENT_ACTION_NOTIFICATION = "rs.ac.bg.etf.running.NOTIFICATION";
+    public static final String INTENT_ACTION_WORKOUT = "rs.ac.bg.etf.running.WORKOUT";
 
     private ActivityMainBinding binding;
 
@@ -29,9 +28,9 @@ public class MainActivity extends AppCompatActivity {
             setupBottomNavigation();
         }
 
-        if (getIntent().getAction().equals(INTENT_ACTION_NOTIFICATION)) {
+        if (getIntent().getAction().equals(INTENT_ACTION_WORKOUT)) {
             NavController navController = BottomNavigationUtil
-                    .changeNavHostFragment(R.id.bottom_navigation_workouts);
+                    .changeNavHostFragment(R.id.nav_graph_workouts);
             if (navController != null) {
                 navController.navigate(WorkoutListFragmentDirections.startWorkout());
             }
@@ -46,9 +45,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupBottomNavigation() {
         int[] navResourceIds = new int[]{
-                R.navigation.nav_graph_routes,
-                R.navigation.nav_graph_workouts,
-                R.navigation.nav_graph_calories
+                R.navigation.navigation_routes,
+                R.navigation.navigation_workouts,
+                R.navigation.navigation_calories
         };
         BottomNavigationUtil.setup(
                 binding.bottomNavigation,

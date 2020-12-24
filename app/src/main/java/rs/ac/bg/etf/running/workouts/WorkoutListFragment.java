@@ -7,7 +7,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
-import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -19,7 +18,6 @@ import dagger.hilt.android.AndroidEntryPoint;
 import rs.ac.bg.etf.running.MainActivity;
 import rs.ac.bg.etf.running.R;
 import rs.ac.bg.etf.running.databinding.FragmentWorkoutListBinding;
-import rs.ac.bg.etf.running.workouts.WorkoutViewModel;
 
 @AndroidEntryPoint
 public class WorkoutListFragment extends Fragment {
@@ -49,7 +47,7 @@ public class WorkoutListFragment extends Fragment {
         // Inflate the layout for this fragment
         binding = FragmentWorkoutListBinding.inflate(inflater, container, false);
 
-        binding.toolbar.inflateMenu(R.menu.workout_list_options_menu);
+        binding.toolbar.inflateMenu(R.menu.menu_workout_list_options);
         binding.toolbar.setOnMenuItemClickListener(menuItem -> {
             switch (menuItem.getItemId()) {
                 case R.id.workout_menu_item_sort:
@@ -67,7 +65,7 @@ public class WorkoutListFragment extends Fragment {
         binding.recyclerView.setAdapter(workoutAdapter);
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(mainActivity));
 
-        binding.floatingActionButton.inflate(R.menu.workout_list_fab_menu);
+        binding.floatingActionButton.inflate(R.menu.menu_workout_list_fab);
 
         binding.floatingActionButton.setOnActionSelectedListener(actionItem -> {
             switch (actionItem.getId()) {

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="route_label">Ruta</string>
     <string name="route_length_label">Dužina:</string>
     <string name="route_difficulty_label">Težina:</string>
@@ -218,4 +219,5 @@
             biste stigli do vrha. Na najvišom tački Srbije nalazi se beli betonski stub.
         </item>
     </string-array>
+
 </resources>

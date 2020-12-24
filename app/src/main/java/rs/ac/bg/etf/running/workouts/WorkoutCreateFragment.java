@@ -29,7 +29,7 @@ import rs.ac.bg.etf.running.databinding.FragmentWorkoutCreateBinding;
 @AndroidEntryPoint
 public class WorkoutCreateFragment extends Fragment {
 
-    public static final String REQUEST_KEY = "date-picker-request";
+    public static final String REQUEST_KEY = "date-picker-request-key";
 
     private FragmentWorkoutCreateBinding binding;
     private WorkoutViewModel workoutViewModel;
@@ -109,15 +109,14 @@ public class WorkoutCreateFragment extends Fragment {
                 textInputLayout.setError(null);
             } else {
                 textInputLayout.setError(mainActivity.getResources()
-                        .getString(R.string.workout_create_error_empty));
+                        .getString(R.string.workout_create_edit_text_error_empty));
                 result = null;
             }
         } catch (ParseException e) {
             textInputLayout.setError(mainActivity.getResources()
-                    .getString(R.string.workout_create_error_format));
+                    .getString(R.string.workout_create_edit_text_error_format));
             return null;
         }
         return result;
     }
-
 }

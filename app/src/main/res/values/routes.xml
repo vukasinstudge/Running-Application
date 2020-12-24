@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string-array name="route_locations">
         <item>Košutnjak, Srbija</item>
         <item>Avala, Srbija</item>
@@ -279,4 +280,5 @@
             the highest point of Serbia, there is a white concrete pillar.
         </item>
     </string-array>
+
 </resources>

@@ -21,7 +21,6 @@ import com.google.android.material.textfield.TextInputLayout;
 import java.text.NumberFormat;
 import java.text.ParseException;
 
-import rs.ac.bg.etf.running.LifecycleAwareLogger;
 import rs.ac.bg.etf.running.MainActivity;
 import rs.ac.bg.etf.running.R;
 import rs.ac.bg.etf.running.databinding.FragmentCaloriesBinding;
@@ -86,7 +85,7 @@ public class CaloriesFragment extends Fragment {
                 if (binding.radioGroup.getCheckedRadioButtonId() == -1) {
                     Toast.makeText(
                             mainActivity,
-                            R.string.calories_error_message,
+                            R.string.calories_toast_text_error,
                             Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -122,7 +121,7 @@ public class CaloriesFragment extends Fragment {
         } catch (ParseException pe) {
             Toast.makeText(
                     mainActivity,
-                    R.string.calories_error_message,
+                    R.string.calories_toast_text_error,
                     Toast.LENGTH_SHORT).show();
             textInputLayout.getEditText().requestFocus();
             throw pe;

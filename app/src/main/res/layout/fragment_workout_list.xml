@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toTopOf="@id/recycler_view"
         app:layout_constraintTop_toTopOf="parent"
-        app:title="@string/workout_toolbar_label" />
+        app:title="@string/workout_list_toolbar_title" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"

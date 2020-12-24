@@ -110,14 +110,14 @@
                     style="@style/Widget.MaterialComponents.Button.TextButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/route_button_label_description" />
+                    android:text="@string/route_view_holder_button_text_description" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/route_button_location"
                     style="@style/Widget.MaterialComponents.Button.TextButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/route_button_label_location" />
+                    android:text="@string/route_view_holder_button_text_location" />
 
             </LinearLayout>
         </LinearLayout>
