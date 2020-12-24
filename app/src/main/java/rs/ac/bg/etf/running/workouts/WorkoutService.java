@@ -21,6 +21,8 @@ public class WorkoutService extends Service {
 
     private final Timer timer = new Timer();
 
+    private boolean serviceStarted = false;
+
     private void scheduleTimer() {
         Handler handler = new Handler(Looper.getMainLooper());
 
@@ -33,6 +35,8 @@ public class WorkoutService extends Service {
                         Toast.LENGTH_SHORT).show());
             }
         }, 0, 7000);
+
+        serviceStarted = true;
     }
 
     @Override
@@ -44,7 +48,9 @@ public class WorkoutService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.d(MainActivity.LOG_TAG, "WorkoutService.onStartCommand()");
-        scheduleTimer();
+        if (!serviceStarted) {
+            scheduleTimer();
+        }
         return super.onStartCommand(intent, flags, startId);
     }
 
