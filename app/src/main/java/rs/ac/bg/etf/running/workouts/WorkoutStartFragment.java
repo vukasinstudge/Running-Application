@@ -70,6 +70,7 @@ public class WorkoutStartFragment extends Fragment {
         }
 
         binding.start.setOnClickListener(view -> startWorkout(new Date().getTime()));
+        binding.cancel.setOnClickListener(view -> cancelWorkout());
 
         mainActivity.getOnBackPressedDispatcher().addCallback(
                 getViewLifecycleOwner(),
@@ -126,6 +127,10 @@ public class WorkoutStartFragment extends Fragment {
                 handler.post(() -> binding.workoutDuration.setText(workoutDuration));
             }
         }, 0, 10);
+    }
+
+    private void cancelWorkout() {
+        stopWorkout();
     }
 
     private void stopWorkout() {
