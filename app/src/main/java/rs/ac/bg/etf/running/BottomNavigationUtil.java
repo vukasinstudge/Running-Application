@@ -2,6 +2,7 @@ package rs.ac.bg.etf.running;
 
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -11,6 +12,12 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class BottomNavigationUtil {
+
+    private interface NavHostFragmentChanger {
+        NavController change(int id);
+    }
+
+    private static NavHostFragmentChanger navHostFragmentChanger;
 
     public static void setup(
             BottomNavigationView bottomNavigationView,
@@ -51,16 +58,19 @@ public class BottomNavigationUtil {
         AtomicReference<String> currentTagWrapper = new AtomicReference<>(
                 navGraphIdToTagMap.get(bottomNavigationView.getSelectedItemId()));
 
-        bottomNavigationView.setOnNavigationItemSelectedListener(menuItem -> {
+        navHostFragmentChanger = id -> {
             if (!fragmentManager.isStateSaved()) {
-                String dstTag = navGraphIdToTagMap.get(menuItem.getItemId());
+                String dstTag = navGraphIdToTagMap.get(id);
+
+                bottomNavigationView.getMenu().findItem(id).setChecked(true);
+
+                NavHostFragment homeNavHostFragment = (NavHostFragment)
+                        fragmentManager.findFragmentByTag(homeTag);
+                NavHostFragment dstNavHostFragment = (NavHostFragment)
+                        fragmentManager.findFragmentByTag(dstTag);
+
                 if (!dstTag.equals(currentTagWrapper.get())) {
                     fragmentManager.popBackStack(homeTag, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-
-                    NavHostFragment homeNavHostFragment = (NavHostFragment)
-                            fragmentManager.findFragmentByTag(homeTag);
-                    NavHostFragment dstNavHostFragment = (NavHostFragment)
-                            fragmentManager.findFragmentByTag(dstTag);
 
                     if (!dstTag.equals(homeTag)) {
                         fragmentManager.beginTransaction()
@@ -74,12 +84,14 @@ public class BottomNavigationUtil {
 
                     currentTagWrapper.set(dstTag);
                     isOnHomeWrapper.set(dstTag.equals(homeTag));
-
-                    return true;
                 }
+                return dstNavHostFragment.getNavController();
             }
-            return false;
-        });
+            return null;
+        };
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(
+                menuItem -> navHostFragmentChanger.change(menuItem.getItemId()) != null);
 
         int finalHomeNavGraphId = homeNavGraphId;
         fragmentManager.addOnBackStackChangedListener(() -> {
@@ -87,6 +99,10 @@ public class BottomNavigationUtil {
                 bottomNavigationView.setSelectedItemId(finalHomeNavGraphId);
             }
         });
+    }
+
+    public static NavController changeNavHostFragment(int id) {
+        return navHostFragmentChanger.change(id);
     }
 
     private static NavHostFragment obtainNavHostFragment(

@@ -130,6 +130,8 @@ public class WorkoutService extends Service {
     private Notification getNotification() {
         Intent intent = new Intent();
         intent.setClass(this, MainActivity.class);
+        intent.setAction(MainActivity.INTENT_ACTION_NOTIFICATION);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
         PendingIntent pendingIntent = PendingIntent
                 .getActivity(this, 0, intent, 0);
