@@ -24,6 +24,8 @@ import java.util.TimerTask;
 
 import dagger.hilt.android.AndroidEntryPoint;
 import rs.ac.bg.etf.running.MainActivity;
+import rs.ac.bg.etf.running.R;
+import rs.ac.bg.etf.running.data.Workout;
 import rs.ac.bg.etf.running.databinding.FragmentWorkoutStartBinding;
 
 @AndroidEntryPoint
@@ -70,6 +72,7 @@ public class WorkoutStartFragment extends Fragment {
         }
 
         binding.start.setOnClickListener(view -> startWorkout(new Date().getTime()));
+        binding.finish.setOnClickListener(view -> finishWorkout());
         binding.cancel.setOnClickListener(view -> cancelWorkout());
 
         mainActivity.getOnBackPressedDispatcher().addCallback(
@@ -127,6 +130,20 @@ public class WorkoutStartFragment extends Fragment {
                 handler.post(() -> binding.workoutDuration.setText(workoutDuration));
             }
         }, 0, 10);
+    }
+
+    private void finishWorkout() {
+        long startTimestamp = sharedPreferences.getLong(START_TIMESTAMP_KEY, new Date().getTime());
+        long elapsed = new Date().getTime() - startTimestamp;
+        double minutes = elapsed / (1000.0 * 60);
+        workoutViewModel.insertWorkout(new Workout(
+                0,
+                new Date(),
+                getText(R.string.workout_label).toString(),
+                0.2 * minutes,
+                minutes
+        ));
+        stopWorkout();
     }
 
     private void cancelWorkout() {
