@@ -76,6 +76,12 @@ public class WorkoutStartFragment extends Fragment {
         binding.start.setOnClickListener(view -> startWorkout(new Date().getTime()));
         binding.finish.setOnClickListener(view -> finishWorkout());
         binding.cancel.setOnClickListener(view -> cancelWorkout());
+        binding.power.setOnClickListener(view -> {
+            Intent intent = new Intent();
+            intent.setClass(mainActivity, WorkoutService.class);
+            intent.setAction(WorkoutService.INTENT_ACTION_POWER);
+            mainActivity.startService(intent);
+        });
 
         mainActivity.getOnBackPressedDispatcher().addCallback(
                 getViewLifecycleOwner(),
@@ -135,6 +141,7 @@ public class WorkoutStartFragment extends Fragment {
 
         Intent intent = new Intent();
         intent.setClass(mainActivity, WorkoutService.class);
+        intent.setAction(WorkoutService.INTENT_ACTION_START);
         mainActivity.startService(intent);
     }
 
