@@ -71,4 +71,6 @@ dependencies {
 
     implementation 'androidx.lifecycle:lifecycle-service:2.3.0-rc01'
 
+    implementation "com.google.android.gms:play-services-location:17.1.0"
+
 }

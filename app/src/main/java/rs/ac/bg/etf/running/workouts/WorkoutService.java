@@ -48,6 +48,9 @@ public class WorkoutService extends LifecycleService {
     @Inject
     public LifecycleAwareMeasurer measurer;
 
+    @Inject
+    public LifecycleAwareLocator locator;
+
     @Override
     public void onCreate() {
         Log.d(MainActivity.LOG_TAG, "WorkoutService.onCreate()");
@@ -56,6 +59,7 @@ public class WorkoutService extends LifecycleService {
         getLifecycle().addObserver(motivator);
         getLifecycle().addObserver(player);
         getLifecycle().addObserver(measurer);
+        getLifecycle().addObserver(locator);
     }
 
     @Override
@@ -73,6 +77,7 @@ public class WorkoutService extends LifecycleService {
                     motivator.start(this);
                     player.start(this);
                     measurer.start(this);
+                    locator.getLocation(this);
                 }
                 break;
             case INTENT_ACTION_POWER:
