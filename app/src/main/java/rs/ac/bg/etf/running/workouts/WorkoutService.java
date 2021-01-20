@@ -10,20 +10,26 @@ import android.os.Looper;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationChannelCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.LifecycleService;
 
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.atomic.AtomicReference;
 
+import javax.inject.Inject;
+
+import dagger.hilt.android.AndroidEntryPoint;
 import rs.ac.bg.etf.running.MainActivity;
 import rs.ac.bg.etf.running.R;
 
-public class WorkoutService extends Service {
+@AndroidEntryPoint
+public class WorkoutService extends LifecycleService {
 
     public static final String INTENT_ACTION_START = "rs.ac.bg.etf.running.workouts.START";
     public static final String INTENT_ACTION_POWER = "rs.ac.bg.etf.running.workouts.POWER";
@@ -31,55 +37,22 @@ public class WorkoutService extends Service {
     private static final String NOTIFICATION_CHANNEL_ID = "workout-notification-channel";
     private static final int NOTIFICATION_ID = 1;
 
-    private final Timer timer = new Timer();
-
     private boolean serviceStarted = false;
 
-    private int motivationMessageIndex = 1;
-    private final AtomicReference<String> motivationMessage = new AtomicReference<>(null);
-
-    private void scheduleTimer() {
-        if (motivationMessage.get() == null) {
-            String[] motivationMessages =
-                    getResources().getStringArray(R.array.workout_toast_motivation);
-            motivationMessage.set(motivationMessages[0]);
-        }
-
-        Handler handler = new Handler(Looper.getMainLooper());
-
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                handler.post(() -> Toast.makeText(
-                        WorkoutService.this,
-                        motivationMessage.get(),
-                        Toast.LENGTH_SHORT).show());
-            }
-        }, 0, 7000);
-
-        serviceStarted = true;
-    }
-
-    private void changeMotivationMessage() {
-        String[] motivationMessages =
-                getResources().getStringArray(R.array.workout_toast_motivation);
-        motivationMessage.set(motivationMessages[motivationMessageIndex]);
-        motivationMessageIndex = (motivationMessageIndex + 1) % motivationMessages.length;
-
-        Toast.makeText(
-                this,
-                "changeMotivationMessage()",
-                Toast.LENGTH_SHORT).show();
-    }
+    @Inject
+    public LifecycleAwareMotivator motivator;
 
     @Override
     public void onCreate() {
         Log.d(MainActivity.LOG_TAG, "WorkoutService.onCreate()");
         super.onCreate();
+
+        getLifecycle().addObserver(motivator);
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        super.onStartCommand(intent, flags, startId);
         Log.d(MainActivity.LOG_TAG, "WorkoutService.onStartCommand()");
 
         createNotificationChannel();
@@ -88,12 +61,13 @@ public class WorkoutService extends Service {
         switch (intent.getAction()) {
             case INTENT_ACTION_START:
                 if (!serviceStarted) {
-                    scheduleTimer();
+                    serviceStarted = true;
+                    motivator.start(this);
                 }
                 break;
             case INTENT_ACTION_POWER:
                 if (serviceStarted) {
-                    changeMotivationMessage();
+                    motivator.changeMessage(this);
                 }
                 break;
         }
@@ -103,7 +77,8 @@ public class WorkoutService extends Service {
 
     @Nullable
     @Override
-    public IBinder onBind(Intent intent) {
+    public IBinder onBind(@NonNull Intent intent) {
+        super.onBind(intent);
         Log.d(MainActivity.LOG_TAG, "WorkoutService.onBind()");
         return null;
     }
@@ -112,7 +87,6 @@ public class WorkoutService extends Service {
     public void onDestroy() {
         Log.d(MainActivity.LOG_TAG, "WorkoutService.onDestroy()");
         super.onDestroy();
-        timer.cancel();
     }
 
     private void createNotificationChannel() {
