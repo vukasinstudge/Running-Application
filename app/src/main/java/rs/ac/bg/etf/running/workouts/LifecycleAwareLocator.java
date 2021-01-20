@@ -19,6 +19,7 @@ import com.google.android.gms.tasks.Task;
 import javax.inject.Inject;
 
 import rs.ac.bg.etf.running.MainActivity;
+import rs.ac.bg.etf.running.rest.OpenWeatherMapService;
 
 public class LifecycleAwareLocator implements DefaultLifecycleObserver {
 
@@ -46,6 +47,9 @@ public class LifecycleAwareLocator implements DefaultLifecycleObserver {
                 double latitude = location.getLatitude();
                 double longitude = location.getLongitude();
                 Log.d(MainActivity.LOG_TAG, "lat:" + latitude + " lon:" + longitude);
+
+                OpenWeatherMapService openWeatherMapService = new OpenWeatherMapService();
+                openWeatherMapService.getCurrentWeather(latitude, longitude);
             }
         });
     }
