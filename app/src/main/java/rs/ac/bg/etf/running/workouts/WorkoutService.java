@@ -42,12 +42,16 @@ public class WorkoutService extends LifecycleService {
     @Inject
     public LifecycleAwareMotivator motivator;
 
+    @Inject
+    public LifecycleAwarePlayer player;
+
     @Override
     public void onCreate() {
         Log.d(MainActivity.LOG_TAG, "WorkoutService.onCreate()");
         super.onCreate();
 
         getLifecycle().addObserver(motivator);
+        getLifecycle().addObserver(player);
     }
 
     @Override
@@ -63,6 +67,7 @@ public class WorkoutService extends LifecycleService {
                 if (!serviceStarted) {
                     serviceStarted = true;
                     motivator.start(this);
+                    player.start(this);
                 }
                 break;
             case INTENT_ACTION_POWER:
@@ -91,7 +96,7 @@ public class WorkoutService extends LifecycleService {
 
     private void createNotificationChannel() {
         NotificationChannelCompat notificationChannel = new NotificationChannelCompat
-                .Builder(NOTIFICATION_CHANNEL_ID, NotificationManagerCompat.IMPORTANCE_DEFAULT)
+                .Builder(NOTIFICATION_CHANNEL_ID, NotificationManagerCompat.IMPORTANCE_LOW)
                 .setName(getString(R.string.workout_notification_channel_name))
                 .build();
         NotificationManagerCompat.from(this).createNotificationChannel(notificationChannel);
