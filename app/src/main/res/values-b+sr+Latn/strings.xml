@@ -62,4 +62,24 @@
     <string name="calories_needed">Potrebno</string>
     <string name="calories_toast_text_error">Pogrešne vrednosti!</string>
 
+    <!-- Login -->
+    <string name="welcome_label">Dobrodošli</string>
+    <string name="username_hint">Korisničko ime</string>
+    <string name="password_hint">Lozinka</string>
+    <string name="login_button_text">Uloguj se</string>
+    <string name="stay_logged_in_text">Ostani prijavljen</string>
+    <string name="no_account_question">Nemate nalog?</string>
+    <string name="register_button_text">Registruj se</string>
+    <string name="email_hint">E-mail</string>
+    <string name="enter_username_password">Unesite korisničko ime i lozinku!</string>
+    <string name="username_exists">Korisničko ime zauzeto!</string>
+    <string name="email_exists">Email je zauzet!</string>
+    <string name="invalid_login_data">Netačni podaci!</string>
+
+    <!-- Nav -->
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="logout_title">Odjavi se</string>
+    <string name="login_title">Odjavi se</string>
+
 </resources>

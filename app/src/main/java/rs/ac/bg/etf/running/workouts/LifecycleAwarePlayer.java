@@ -2,6 +2,7 @@ package rs.ac.bg.etf.running.workouts;
 
 import android.content.Context;
 import android.media.MediaPlayer;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.DefaultLifecycleObserver;
@@ -24,7 +25,12 @@ public class LifecycleAwarePlayer implements DefaultLifecycleObserver {
     public void start(Context context) {
         if (mediaPlayer == null) {
             try {
-                String song = "ACDC - Back In Black.mp3";
+                File dirFiles = context.getFilesDir();
+                for (String strFile : dirFiles.list())
+                {
+                    Log.d("pesme", strFile);
+                }
+                String song = "Lotus Flower Bomb (feat. Miguel).mp3";
                 String path = context.getFilesDir().getAbsolutePath() + File.separator + song;
                 mediaPlayer = new MediaPlayer();
                 mediaPlayer.setDataSource(path);

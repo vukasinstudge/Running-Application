@@ -16,4 +16,8 @@
     <dimen name="route_info_item_margin_top">8dp</dimen>
     <dimen name="route_card_corner_radius">8dp</dimen>
 
+    <!-- Login -->
+    <dimen name="new_horizontal_margin">30dp</dimen>
+    <dimen name="default_top_margin">20dp</dimen>
+
 </resources>

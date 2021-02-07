@@ -93,4 +93,6 @@ public class RouteBrowseFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         navController = Navigation.findNavController(view);
     }
+
+
 }

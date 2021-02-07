@@ -62,4 +62,24 @@
     <string name="calories_needed">Needed</string>
     <string name="calories_toast_text_error">Wrong values!</string>
 
+    <!-- Login -->
+    <string name="welcome_label">Welcome</string>
+    <string name="username_hint">Username</string>
+    <string name="password_hint">Password</string>
+    <string name="login_button_text">Login</string>
+    <string name="stay_logged_in_text">Stay logged in</string>
+    <string name="no_account_question">No account?</string>
+    <string name="register_button_text">Register</string>
+    <string name="email_hint">E-mail</string>
+    <string name="enter_username_password">Enter username and password!</string>
+    <string name="username_exists">Username already exists!</string>
+    <string name="email_exists">Email already exists!</string>
+    <string name="invalid_login_data">Invalid login data!</string>
+
+    <!-- Nav -->
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="logout_title">Logout</string>
+    <string name="login_title">Login</string>
+
 </resources>
