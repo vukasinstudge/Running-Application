@@ -4,10 +4,12 @@ import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
 import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -18,6 +20,8 @@ import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.LifecycleService;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.atomic.AtomicReference;
@@ -31,6 +35,24 @@ import rs.ac.bg.etf.running.R;
 @AndroidEntryPoint
 public class WorkoutService extends LifecycleService {
 
+    private MyListener myListener = new MyListener();
+    static int indexSongs = 1;
+
+    public static int getIndexSongs() {
+        return indexSongs;
+    }
+
+    public static void setIndexSongs(int indexSongs) {
+        WorkoutService.indexSongs = indexSongs;
+    }
+
+    public class MyListener implements MediaPlayer.OnCompletionListener {
+        @Override
+        public void onCompletion(MediaPlayer mp) {
+
+        }
+    }
+
     public static final String INTENT_ACTION_START = "rs.ac.bg.etf.running.workouts.START";
     public static final String INTENT_ACTION_POWER = "rs.ac.bg.etf.running.workouts.POWER";
 
@@ -38,6 +60,26 @@ public class WorkoutService extends LifecycleService {
     private static final int NOTIFICATION_ID = 1;
 
     private boolean serviceStarted = false;
+
+    public static WorkoutService staticService = null;
+
+    public static LifecycleAwareLocator staticLocator = null;
+
+    public static WorkoutService getStaticService() {
+        return staticService;
+    }
+
+    public static void setStaticService(WorkoutService staticService) {
+        WorkoutService.staticService = staticService;
+    }
+
+    public static LifecycleAwareLocator getStaticLocator() {
+        return staticLocator;
+    }
+
+    public static void setStaticLocator(LifecycleAwareLocator staticLocator) {
+        WorkoutService.staticLocator = staticLocator;
+    }
 
     @Inject
     public LifecycleAwareMotivator motivator;
@@ -51,6 +93,9 @@ public class WorkoutService extends LifecycleService {
     @Inject
     public LifecycleAwareLocator locator;
 
+    @Inject
+    public LifecycleAwareStepCounter stepCounter;
+
     @Override
     public void onCreate() {
         Log.d(MainActivity.LOG_TAG, "WorkoutService.onCreate()");
@@ -60,6 +105,7 @@ public class WorkoutService extends LifecycleService {
         getLifecycle().addObserver(player);
         getLifecycle().addObserver(measurer);
         getLifecycle().addObserver(locator);
+        getLifecycle().addObserver(stepCounter);
     }
 
     @Override
@@ -77,8 +123,64 @@ public class WorkoutService extends LifecycleService {
                     motivator.start(this);
                     player.start(this);
                     measurer.start(this);
+                    stepCounter.start(this);
                     locator.getLocation(this);
+                    setStaticService(this);
+                    setStaticLocator(locator);
                 }
+                player.getMediaPlayer().setOnCompletionListener(mp -> {
+                    player.getMediaPlayer().reset();
+                    String songs = MainActivity.getCurrPlaylist().getSongs();
+                    File filesDir = MainActivity.getStaticMain().getFilesDir();
+                    int indexLambda = 0;
+                    String songForShow = "";
+                    if(indexSongs < songs.length())
+                    {
+                        int num = songs.charAt(indexSongs) - '0';
+                        for (String strFile : filesDir.list()) {
+                            if (num == indexLambda) {
+                                try {
+                                    songForShow = strFile;
+                                    player.getMediaPlayer().setDataSource(filesDir.getAbsolutePath() + File.separator + strFile);
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                            indexLambda++;
+                        }
+                        player.getMediaPlayer().setOnPreparedListener(mp1 -> {
+                            int duration = player.getMediaPlayer().getDuration();
+                            player.getMediaPlayer().start();
+
+                            Log.d("trajanje", "" + duration);
+
+                            int seconds = (int) ((duration / 1000) % 60);
+                            int minutes = (int) ((duration / (1000 * 60)) % 60);
+
+                            StringBuilder remaining = new StringBuilder();
+                            remaining.append(String.format("%02d", minutes)).append(":");
+                            remaining.append(String.format("%02d", seconds));
+
+                            TextView tw = (TextView) MainActivity.getStaticMain().findViewById(R.id.remaining);
+                            tw.setText(remaining);
+                        });
+                        player.getMediaPlayer().prepareAsync();
+
+                        TextView tw = (TextView) MainActivity.getStaticMain().findViewById(R.id.playlist_name);
+                        tw.setText(getResources().getString(R.string.empty_playlist) + " " + MainActivity.getCurrPlaylist().getName());
+                        tw = (TextView) MainActivity.getStaticMain().findViewById(R.id.song_name);
+                        tw.setText(getResources().getString(R.string.empty_song) + " " + songForShow);
+
+                        indexSongs++;
+                    }
+                    else
+                    {
+                        indexSongs = 1;
+                        TextView tw = (TextView) MainActivity.getStaticMain().findViewById(R.id.song_name);
+                        tw.setText(getResources().getString(R.string.empty_song));
+                        player.getMediaPlayer().release();
+                    }
+                });
                 break;
             case INTENT_ACTION_POWER:
                 if (serviceStarted) {
@@ -87,7 +189,7 @@ public class WorkoutService extends LifecycleService {
                 break;
         }
 
-        return START_STICKY;
+        return START_REDELIVER_INTENT;
     }
 
     @Nullable

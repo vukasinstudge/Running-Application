@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph_playlists"
+    app:startDestination="@id/playlist_list">
+
+    <fragment
+        android:id="@+id/playlist_list"
+        android:name="rs.ac.bg.etf.running.music.PlaylistListFragment"
+        android:label="fragment_playlist_list"
+        tools:layout="@layout/fragment_playlist_list">
+        <action
+            android:id="@+id/create_playlist"
+            app:destination="@id/playlist_create" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/playlist_create"
+        android:name="rs.ac.bg.etf.running.music.PlaylistCreateFragment"
+        android:label="fragment_playlist_create"
+        tools:layout="@layout/fragment_playlist_create" />
+
+</navigation>

@@ -31,6 +31,7 @@ import rs.ac.bg.etf.running.calories.CaloriesViewModel;
 import rs.ac.bg.etf.running.data.User;
 import rs.ac.bg.etf.running.databinding.FragmentCaloriesBinding;
 import rs.ac.bg.etf.running.databinding.FragmentLoginBinding;
+import rs.ac.bg.etf.running.music.PlaylistViewModel;
 import rs.ac.bg.etf.running.workouts.WorkoutViewModel;
 
 public class LoginFragment extends Fragment {
@@ -39,6 +40,7 @@ public class LoginFragment extends Fragment {
     private NavController navController;
     private MainActivity mainActivity;
     private LoginViewModel loginViewModel;
+    private PlaylistViewModel playlistViewModel;
 
     public LoginFragment() {
         // Required empty public constructor
@@ -50,6 +52,7 @@ public class LoginFragment extends Fragment {
 
         mainActivity = (MainActivity) requireActivity();
         loginViewModel = new ViewModelProvider(mainActivity).get(LoginViewModel.class);
+        playlistViewModel = new ViewModelProvider(mainActivity).get(PlaylistViewModel.class);
     }
 
     @Override
@@ -74,7 +77,7 @@ public class LoginFragment extends Fragment {
                 Log.d("pokusaj", userList.get(i).getUsername());
                 Log.d("pokusaj", userList.get(i).getPassword());
                 loginViewModel.setCurrentUser(userList.get(i));
-
+                playlistViewModel.refreshPlaylists();
                 boolean stayLoggedIn = binding.stayLoggedInCheckbox.isChecked();
                 loginViewModel.updateUser(loginViewModel.getCurrentUser().getValue().getUsername(), stayLoggedIn);
 

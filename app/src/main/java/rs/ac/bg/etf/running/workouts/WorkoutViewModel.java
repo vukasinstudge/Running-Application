@@ -20,6 +20,9 @@ public class WorkoutViewModel extends ViewModel {
     private static final String SORTED_KEY = "sorted-key";
     private boolean sorted = false;
 
+    private double low = -1;
+    private double high = 1000000;
+
     private final LiveData<List<Workout>> workouts;
 
     @ViewModelInject
@@ -33,12 +36,27 @@ public class WorkoutViewModel extends ViewModel {
                 savedStateHandle.getLiveData(SORTED_KEY, false),
                 sorted -> {
                     if (!sorted) {
-                        return workoutRepository.getAllLiveData();
+                        return workoutRepository.getAllLiveData(low, high);
                     } else {
-                        return workoutRepository.getAllSortedLiveData();
+                        return workoutRepository.getAllSortedLiveData(low, high);
                     }
                 }
         );
+    }
+
+
+
+    public void setFilter(double low, double high) {
+        this.low = low;
+        this.high = high;
+    }
+
+    public void sort() {
+        savedStateHandle.set(SORTED_KEY, sorted = true);
+    }
+
+    public void notSort() {
+        savedStateHandle.set(SORTED_KEY, sorted = false);
     }
 
     public void invertSorted() {

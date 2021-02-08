@@ -14,6 +14,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.Date;
+
 import dagger.hilt.android.AndroidEntryPoint;
 import rs.ac.bg.etf.running.MainActivity;
 import rs.ac.bg.etf.running.R;
@@ -26,6 +28,8 @@ public class WorkoutListFragment extends Fragment {
     private WorkoutViewModel workoutViewModel;
     private NavController navController;
     private MainActivity mainActivity;
+
+    public static final String DIALOG_KEY = "dialog-key";
 
     public WorkoutListFragment() {
         // Required empty public constructor
@@ -74,6 +78,33 @@ public class WorkoutListFragment extends Fragment {
                     return false;
                 case R.id.workout_fab_start:
                     navController.navigate(WorkoutListFragmentDirections.startWorkout());
+                    return false;
+                case R.id.workout_fab_filter_sort:
+                    new FilterSortFragment().show(getChildFragmentManager(), null);
+
+                    getChildFragmentManager().setFragmentResultListener(DIALOG_KEY, this,
+                            (requestKey, result) -> {
+                                String resultString = (String) result.getSerializable(FilterSortFragment.SET_FILTER_SORT_KEY);
+                                String[] resultSplit = resultString.split("/");
+
+                                double low = Double.parseDouble(resultSplit[0]);
+                                double high = Double.parseDouble(resultSplit[1]);
+                                boolean sort = false;
+                                if (resultSplit[2].equals("1")) sort = true;
+
+                                StringBuilder sb = new StringBuilder();
+                                if (low == -1 || high == 1000000) sb.append("Filter off / ");
+                                else sb.append("Filter on / ");
+                                if (sort) sb.append("Sort on");
+                                else sb.append("Sort off");
+
+                                workoutViewModel.setFilter(low, high);
+
+                                if (sort) workoutViewModel.sort();
+                                else workoutViewModel.notSort();
+
+                                binding.filterSortLabel.setText(sb.toString());
+                            });
                     return false;
             }
             return true;

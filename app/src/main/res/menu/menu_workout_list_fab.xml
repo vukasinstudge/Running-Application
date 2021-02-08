@@ -11,4 +11,9 @@
         android:icon="@drawable/baseline_play_arrow_black_24"
         android:title="@string/workout_list_fab_text_start" />
 
+    <item
+        android:id="@+id/workout_fab_filter_sort"
+        android:icon="@drawable/baseline_sort_24"
+        android:title="@string/workout_list_fab_text_filter" />
+
 </menu>

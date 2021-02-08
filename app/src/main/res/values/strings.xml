@@ -82,4 +82,30 @@
     <string name="logout_title">Logout</string>
     <string name="login_title">Login</string>
 
+    <!-- Music -->
+    <string name="new_playlist">New Playlist</string>
+    <string name="songs_num_suffix">songs</string>
+    <string name="playlist_name_hint">Playlist Name</string>
+    <string name="playlist_create_button_text">Create</string>
+    <string name="playlists_title">Playlists</string>
+    <string name="play_button">Play</string>
+    <string name="empty_playlist">Playlist: </string>
+    <string name="empty_song">Song: </string>
+    <string name="pause_button_text">Pause</string>
+    <string name="resume_button_text">Resume</string>
+    <string name="next_button_text">Next</string>
+    <string name="previous_button_text">Previous</string>
+
+    <!-- Steps -->
+    <string name="steps_text">Steps: 0</string>
+    <string name="workout_list_fab_text_filter">Filter / Sort</string>
+    <string name="done_button_text">Done</string>
+
+    <!-- Filters and sorting -->
+    <string name="sort_workouts_question">Sort workouts ?</string>
+    <string name="filter_by_distance_question">Filter by distance:</string>
+    <string name="low_filter">Low</string>
+    <string name="high_filter">High</string>
+    <string name="no_filter_sort_label">Filter off / Sort off</string>
+
 </resources>

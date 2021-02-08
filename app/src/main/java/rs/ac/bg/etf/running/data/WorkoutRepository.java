@@ -29,12 +29,12 @@ public class WorkoutRepository {
         return workoutDao.getAll();
     }
 
-    public LiveData<List<Workout>> getAllLiveData() {
-        return workoutDao.getAllLiveData();
+    public LiveData<List<Workout>> getAllLiveData(double low, double high) {
+        return workoutDao.getAllLiveData(low, high);
     }
 
-    public LiveData<List<Workout>> getAllSortedLiveData() {
-        return workoutDao.getAllSortedLiveData();
+    public LiveData<List<Workout>> getAllSortedLiveData(double low, double high) {
+        return workoutDao.getAllSortedLiveData(low, high);
     }
 
 }

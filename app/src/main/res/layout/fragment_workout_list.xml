@@ -19,9 +19,24 @@
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/filter_sort_label"
         app:layout_constraintTop_toBottomOf="@id/toolbar"
         tools:listitem="@layout/view_holder_workout" />
+
+    <TextView
+        android:id="@+id/filter_sort_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/no_filter_sort_label"
+        android:layout_margin="20dp"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/recycler_view"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:gravity="center" />
+
 
     <com.leinardi.android.speeddial.SpeedDialOverlayLayout
         android:id="@+id/overlay"
