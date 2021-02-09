@@ -65,6 +65,10 @@ public class WorkoutListFragment extends Fragment {
         workoutViewModel.getWorkoutList().observe(
                 getViewLifecycleOwner(),
                 workoutAdapter::setWorkoutList);
+        workoutViewModel.getEveryone().observe(
+                getViewLifecycleOwner(),
+                workoutAdapter::setEveryone
+        );
 
         binding.recyclerView.setAdapter(workoutAdapter);
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(mainActivity));

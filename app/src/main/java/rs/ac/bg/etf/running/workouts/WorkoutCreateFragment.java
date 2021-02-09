@@ -81,7 +81,9 @@ public class WorkoutCreateFragment extends Fragment {
                         date,
                         label,
                         distance.doubleValue(),
-                        duration.doubleValue()
+                        duration.doubleValue(),
+                        MainActivity.getCurrUsername(),
+                        (int) (distance.doubleValue() * 1000 / 1.6)
                 ));
                 navController.navigateUp();
             }

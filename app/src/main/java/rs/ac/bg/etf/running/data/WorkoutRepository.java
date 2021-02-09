@@ -25,16 +25,24 @@ public class WorkoutRepository {
         executorService.submit(() -> workoutDao.insert(workout));
     }
 
-    public List<Workout> getAll() {
-        return workoutDao.getAll();
+    public List<Workout> getEveryone() {
+        return workoutDao.getEveryone();
     }
 
-    public LiveData<List<Workout>> getAllLiveData(double low, double high) {
-        return workoutDao.getAllLiveData(low, high);
+    public LiveData<List<Workout>> getEveryoneLiveData() {
+        return workoutDao.getEveryoneLiveData();
     }
 
-    public LiveData<List<Workout>> getAllSortedLiveData(double low, double high) {
-        return workoutDao.getAllSortedLiveData(low, high);
+    public List<Workout> getAll(String username) {
+        return workoutDao.getAll(username);
+    }
+
+    public LiveData<List<Workout>> getAllLiveData(double low, double high, String username) {
+        return workoutDao.getAllLiveData(low, high, username);
+    }
+
+    public LiveData<List<Workout>> getAllSortedLiveData(double low, double high, String username) {
+        return workoutDao.getAllSortedLiveData(low, high, username);
     }
 
 }

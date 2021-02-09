@@ -41,6 +41,7 @@ public class LoginFragment extends Fragment {
     private MainActivity mainActivity;
     private LoginViewModel loginViewModel;
     private PlaylistViewModel playlistViewModel;
+    private WorkoutViewModel workoutViewModel;
 
     public LoginFragment() {
         // Required empty public constructor
@@ -53,6 +54,7 @@ public class LoginFragment extends Fragment {
         mainActivity = (MainActivity) requireActivity();
         loginViewModel = new ViewModelProvider(mainActivity).get(LoginViewModel.class);
         playlistViewModel = new ViewModelProvider(mainActivity).get(PlaylistViewModel.class);
+        workoutViewModel = new ViewModelProvider(mainActivity).get(WorkoutViewModel.class);
     }
 
     @Override
@@ -77,7 +79,10 @@ public class LoginFragment extends Fragment {
                 Log.d("pokusaj", userList.get(i).getUsername());
                 Log.d("pokusaj", userList.get(i).getPassword());
                 loginViewModel.setCurrentUser(userList.get(i));
+
                 playlistViewModel.refreshPlaylists();
+                workoutViewModel.refreshWorkouts();
+
                 boolean stayLoggedIn = binding.stayLoggedInCheckbox.isChecked();
                 loginViewModel.updateUser(loginViewModel.getCurrentUser().getValue().getUsername(), stayLoggedIn);
 

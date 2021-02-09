@@ -22,6 +22,7 @@ import androidx.lifecycle.LifecycleService;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.atomic.AtomicReference;
@@ -52,6 +53,8 @@ public class WorkoutService extends LifecycleService {
 
         }
     }
+
+    private Timer timer;
 
     public static final String INTENT_ACTION_START = "rs.ac.bg.etf.running.workouts.START";
     public static final String INTENT_ACTION_POWER = "rs.ac.bg.etf.running.workouts.POWER";
@@ -101,6 +104,8 @@ public class WorkoutService extends LifecycleService {
         Log.d(MainActivity.LOG_TAG, "WorkoutService.onCreate()");
         super.onCreate();
 
+        timer = new Timer();
+
         getLifecycle().addObserver(motivator);
         getLifecycle().addObserver(player);
         getLifecycle().addObserver(measurer);
@@ -124,9 +129,17 @@ public class WorkoutService extends LifecycleService {
                     player.start(this);
                     measurer.start(this);
                     stepCounter.start(this);
-                    locator.getLocation(this);
+
                     setStaticService(this);
                     setStaticLocator(locator);
+
+                    timer.schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            locator.getLocation(WorkoutService.getStaticService());
+                        }
+                    }, 0, 5000);
+
                 }
                 player.getMediaPlayer().setOnCompletionListener(mp -> {
                     player.getMediaPlayer().reset();
@@ -203,6 +216,7 @@ public class WorkoutService extends LifecycleService {
     @Override
     public void onDestroy() {
         Log.d(MainActivity.LOG_TAG, "WorkoutService.onDestroy()");
+        timer.cancel();
         super.onDestroy();
     }
 

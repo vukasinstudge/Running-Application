@@ -48,6 +48,9 @@ public class LifecycleAwareLocator implements DefaultLifecycleObserver {
                 double longitude = location.getLongitude();
                 Log.d(MainActivity.LOG_TAG, "lat:" + latitude + " lon:" + longitude);
 
+                MainActivity.getLatitude().add(latitude);
+                MainActivity.getLongitude().add(longitude);
+
                 OpenWeatherMapService openWeatherMapService = new OpenWeatherMapService();
                 openWeatherMapService.getCurrentWeather(latitude, longitude);
             }

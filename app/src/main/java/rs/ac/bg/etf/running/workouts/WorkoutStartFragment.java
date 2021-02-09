@@ -31,6 +31,7 @@ import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -38,6 +39,7 @@ import java.util.TimerTask;
 import dagger.hilt.android.AndroidEntryPoint;
 import rs.ac.bg.etf.running.MainActivity;
 import rs.ac.bg.etf.running.R;
+import rs.ac.bg.etf.running.data.Location;
 import rs.ac.bg.etf.running.data.Workout;
 import rs.ac.bg.etf.running.databinding.FragmentWorkoutStartBinding;
 
@@ -55,6 +57,8 @@ public class WorkoutStartFragment extends Fragment {
     private Timer timer;
     private Timer timerRemaining;
     private SharedPreferences sharedPreferences;
+
+    private LocationViewModel locationViewModel;
 
     static int indexSongs;
     private boolean paused = false;
@@ -78,6 +82,7 @@ public class WorkoutStartFragment extends Fragment {
 
         mainActivity = (MainActivity) requireActivity();
         workoutViewModel = new ViewModelProvider(mainActivity).get(WorkoutViewModel.class);
+        locationViewModel = new ViewModelProvider(mainActivity).get(LocationViewModel.class);
 
         sharedPreferences = mainActivity
                 .getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
@@ -323,13 +328,39 @@ public class WorkoutStartFragment extends Fragment {
         long startTimestamp = sharedPreferences.getLong(START_TIMESTAMP_KEY, new Date().getTime());
         long elapsed = new Date().getTime() - startTimestamp;
         double minutes = elapsed / (1000.0 * 60);
-        workoutViewModel.insertWorkout(new Workout(
+        TextView textView = (TextView) MainActivity.getStaticMain().findViewById(R.id.steps);
+        String stepsString = textView.getText().toString();
+        int numSteps = Integer.parseInt(stepsString.split(":")[1].substring(1));
+        Workout newWorkout = new Workout(
                 0,
                 new Date(),
                 getText(R.string.workout_label).toString(),
                 0.2 * minutes,
-                minutes
-        ));
+                minutes,
+                MainActivity.getCurrUsername(),
+                numSteps
+        );
+        workoutViewModel.insertWorkout(newWorkout);
+
+        long workoutId = 1;
+        if (workoutViewModel.getEveryone().getValue() != null) {
+            if (workoutViewModel.getEveryone().getValue().size() > 0) {
+                int size = workoutViewModel.getEveryone().getValue().size();
+                workoutId = workoutViewModel.getEveryone().getValue().get(size - 1).getId() + 1;
+            }
+        }
+        for (int i = 0; i < MainActivity.getLatitude().size(); i++) {
+            locationViewModel.insertLocation(new Location(
+                    0,
+                    workoutId,
+                    MainActivity.getLatitude().get(i),
+                    MainActivity.getLongitude().get(i),
+                    MainActivity.getCurrUsername()
+            ));
+        }
+        MainActivity.setLatitude(new ArrayList<>());
+        MainActivity.setLongitude(new ArrayList<>());
+
         stopWorkout();
     }
 

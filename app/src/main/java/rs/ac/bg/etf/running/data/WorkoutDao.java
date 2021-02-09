@@ -14,11 +14,17 @@ public interface WorkoutDao {
     long insert(Workout workout);
 
     @Query("SELECT * FROM Workout")
-    List<Workout> getAll();
+    List<Workout> getEveryone();
 
-    @Query("SELECT * FROM Workout WHERE distance >= :low AND distance <= :high")
-    LiveData<List<Workout>> getAllLiveData(double low, double high);
+    @Query("SELECT * FROM Workout")
+    LiveData<List<Workout>> getEveryoneLiveData();
 
-    @Query("SELECT * FROM Workout WHERE distance >= :low AND distance <= :high ORDER BY distance DESC")
-    LiveData<List<Workout>> getAllSortedLiveData(double low, double high);
+    @Query("SELECT * FROM Workout WHERE username = :username")
+    List<Workout> getAll(String username);
+
+    @Query("SELECT * FROM Workout WHERE distance >= :low AND distance <= :high AND username = :username")
+    LiveData<List<Workout>> getAllLiveData(double low, double high, String username);
+
+    @Query("SELECT * FROM Workout WHERE distance >= :low AND distance <= :high AND username = :username ORDER BY distance DESC")
+    LiveData<List<Workout>> getAllSortedLiveData(double low, double high, String username);
 }

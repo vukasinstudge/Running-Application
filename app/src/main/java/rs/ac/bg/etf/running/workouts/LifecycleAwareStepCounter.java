@@ -36,7 +36,6 @@ public class LifecycleAwareStepCounter implements DefaultLifecycleObserver {
             int stepsNum = Integer.parseInt(stepsString.split(":")[1].substring(1));
             stepsNum++;
             textView.setText("Steps: " + stepsNum);
-            WorkoutService.getStaticLocator().getLocation(WorkoutService.getStaticService());
         }
 
         @Override

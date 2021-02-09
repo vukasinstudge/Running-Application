@@ -15,6 +15,7 @@ import rs.ac.bg.etf.running.databinding.ViewHolderWorkoutBinding;
 public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.WorkoutViewHolder> {
 
     private List<Workout> workoutList = new ArrayList<>();
+    private List<Workout> everyone = new ArrayList<>();
 
     public WorkoutAdapter() {
 
@@ -22,6 +23,11 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.WorkoutV
 
     public void setWorkoutList(List<Workout> workoutList) {
         this.workoutList = workoutList;
+        notifyDataSetChanged();
+    }
+
+    public void setEveryone(List<Workout> everyone) {
+        this.everyone = everyone;
         notifyDataSetChanged();
     }
 

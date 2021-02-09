@@ -17,15 +17,19 @@ import android.widget.Toolbar;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.navigation.NavigationView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import dagger.hilt.android.AndroidEntryPoint;
+import rs.ac.bg.etf.running.data.Location;
 import rs.ac.bg.etf.running.data.Playlist;
 import rs.ac.bg.etf.running.data.User;
 import rs.ac.bg.etf.running.databinding.ActivityMainBinding;
 import rs.ac.bg.etf.running.login.LoginViewModel;
 import rs.ac.bg.etf.running.routes.RouteBrowseFragment;
+import rs.ac.bg.etf.running.workouts.LocationViewModel;
 import rs.ac.bg.etf.running.workouts.WorkoutListFragmentDirections;
+import rs.ac.bg.etf.running.workouts.WorkoutViewModel;
 
 @AndroidEntryPoint
 public class MainActivity extends AppCompatActivity {
@@ -38,6 +42,27 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout drawer;
     private NavDrawerUtil navDrawerUtil;
     private LoginViewModel loginViewModel;
+    private WorkoutViewModel workoutViewModel;
+    private LocationViewModel locationViewModel;
+
+    private static ArrayList<Double> latitude = new ArrayList<>();
+    private static ArrayList<Double> longitude = new ArrayList<>();
+
+    public static ArrayList<Double> getLatitude() {
+        return latitude;
+    }
+
+    public static void setLatitude(ArrayList<Double> latitude) {
+        MainActivity.latitude = latitude;
+    }
+
+    public static ArrayList<Double> getLongitude() {
+        return longitude;
+    }
+
+    public static void setLongitude(ArrayList<Double> longitude) {
+        MainActivity.longitude = longitude;
+    }
 
     private static MainActivity staticMainActivity;
 
@@ -72,9 +97,12 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-
         MainActivity.setStaticMain(this);
+
         loginViewModel = new ViewModelProvider(this).get(LoginViewModel.class);
+        workoutViewModel = new ViewModelProvider(this).get(WorkoutViewModel.class);
+        locationViewModel = new ViewModelProvider(this).get(LocationViewModel.class);
+
         if (savedInstanceState == null) {
             setupNavDrawer();
         }
@@ -84,6 +112,21 @@ public class MainActivity extends AppCompatActivity {
                 MainActivity.setCurrUsername(user.getUsername());
             }
         });
+
+
+        /*workoutViewModel.getWorkoutList().observe(this, workouts -> {
+            int size = workouts.size();
+            long workoutId = workouts.size() - 1;
+            for (int i = 0; i < MainActivity.getLatitude().size(); i++) {
+                locationViewModel.insertLocation(new Location(
+                        0,
+                        workoutId,
+                        MainActivity.getLatitude().get(i),
+                        MainActivity.getLongitude().get(i)
+                ));
+            }
+        });*/
+
 
         if (getIntent().getAction().equals(INTENT_ACTION_WORKOUT)) {
             NavController navController = navDrawerUtil
