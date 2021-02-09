@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        style="@style/Widget.MaterialComponents.Toolbar.Primary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:navigationIcon="@drawable/baseline_arrow_back_24" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/holder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/route_info_padding">
+
+                <TextView
+                    android:id="@+id/workout_label_details"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?attr/textAppearanceHeadline6"
+                    android:text="@string/workout_label_details" />
+
+                <TextView
+                    android:id="@+id/workout_date_details"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/route_info_item_margin_top"
+                    android:textAppearance="?attr/textAppearanceBody1"
+                    android:textColor="?android:attr/textColorSecondary"
+                    android:text="@string/workout_date_details_label" />
+
+                <TextView
+                    android:id="@+id/workout_pace_details"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/route_info_item_margin_top"
+                    android:textAppearance="?attr/textAppearanceBody1"
+                    android:textColor="?android:attr/textColorSecondary"
+                    android:text="@string/pace_label_details" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/route_info_item_margin_top">
+
+                    <TextView
+                        android:id="@+id/workout_distance_label_details"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/route_length_label"
+                        android:textAppearance="?attr/textAppearanceBody1"
+                        android:textColor="?android:attr/textColorSecondary"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/workout_distance_value_details"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/default_view_offset"
+                        android:textAppearance="?attr/textAppearanceBody1"
+                        android:textColor="?android:attr/textColorSecondary"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toRightOf="@id/workout_distance_label_details"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:text="@string/workout_distance_label_text" />
+
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/guideline"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.40369394" />
+
+                    <TextView
+                        android:id="@+id/workout_duration_label_details"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Duration"
+                        android:textAppearance="?attr/textAppearanceBody1"
+                        android:textColor="?android:attr/textColorSecondary"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toRightOf="@id/guideline"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/workout_duration_value_details"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/default_view_offset"
+                        android:textAppearance="?attr/textAppearanceBody1"
+                        android:textColor="?android:attr/textColorSecondary"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toRightOf="@id/workout_duration_label_details"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:text="@string/workout_duration_value_label" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <TextView
+                    android:id="@+id/workout_steps_details"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/route_info_item_margin_top"
+                    android:textAppearance="?attr/textAppearanceBody1"
+                    android:textColor="?android:attr/textColorSecondary"
+                    android:text="@string/steps_label_details" />
+
+                <TextView
+                    android:id="@+id/workout_path_details"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:textAppearance="?attr/textAppearanceHeadline6"
+                    android:text="@string/path_details" />
+
+                <rs.ac.bg.etf.running.workouts.MyCustomView
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/custom_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="450dp" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

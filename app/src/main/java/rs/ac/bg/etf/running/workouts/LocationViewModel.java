@@ -35,8 +35,7 @@ public class LocationViewModel extends ViewModel {
         locations = Transformations.switchMap(
                 savedStateHandle.getLiveData(LOCATION_KEY, 0),
                 locations -> {
-                    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                    return locationRepository.getAllLiveData(0, MainActivity.getCurrUsername());
+                    return locationRepository.getAllLiveData(MainActivity.getCurrUsername());
                 }
         );
     }

@@ -16,6 +16,14 @@
     <string name="route_view_holder_button_text_location">Location</string>
 
     <!-- Workouts -->
+    <string name="workout_date_details_label">Workout date</string>
+    <string name="workout_label_details">Workout label</string>
+    <string name="pace_label_details">Pace:</string>
+    <string name="workout_distance_label_text">0 km</string>
+    <string name="workout_duration_value_label">00:00 min</string>
+    <string name="steps_label_details">Steps:</string>
+    <string name="more_button">MORE</string>
+    <string name="path_details">Path</string>
     <string name="workout_list_toolbar_title">Workouts</string>
     <string name="workout_list_options_menu_title_sort">Sort</string>
     <string name="workout_list_fab_text_start">Start</string>

@@ -25,12 +25,12 @@ public class LocationRepository {
         executorService.submit(() -> locationDao.insert(location));
     }
 
-    public List<Location> getAll(int workoutId, String username) {
-        return locationDao.getAll(workoutId, username);
+    public List<Location> getAll(String username) {
+        return locationDao.getAll(username);
     }
 
-    public LiveData<List<Location>> getAllLiveData(int workoutId, String username) {
-        return locationDao.getAllLiveData(workoutId, username);
+    public LiveData<List<Location>> getAllLiveData(String username) {
+        return locationDao.getAllLiveData(username);
     }
 
 }

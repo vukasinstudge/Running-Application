@@ -91,6 +91,17 @@ public class MainActivity extends AppCompatActivity {
         return users;
     }
 
+
+    public static long workoutId = 0;
+
+    public static long getWorkoutId() {
+        return workoutId;
+    }
+
+    public static void setWorkoutId(long workoutId) {
+        MainActivity.workoutId = workoutId;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

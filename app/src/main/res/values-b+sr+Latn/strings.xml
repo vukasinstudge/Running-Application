@@ -16,6 +16,14 @@
     <string name="route_view_holder_button_text_location">Lokacija</string>
 
     <!-- Workouts -->
+    <string name="workout_date_details_label">Datum treninga</string>
+    <string name="workout_label_details">Trening</string>
+    <string name="pace_label_details">Brzina:</string>
+    <string name="workout_distance_label_text">0 km</string>
+    <string name="workout_duration_value_label">00:00 min</string>
+    <string name="steps_label_details">Broj koraka:</string>
+    <string name="more_button">Više</string>
+    <string name="path_details">Putanja</string>
     <string name="workout_list_toolbar_title">Treninzi</string>
     <string name="workout_list_options_menu_title_sort">Sortiraj</string>
     <string name="workout_list_fab_text_start">Započni</string>

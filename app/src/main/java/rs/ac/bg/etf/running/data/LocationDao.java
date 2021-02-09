@@ -13,9 +13,9 @@ public interface LocationDao {
     @Insert
     long insert(Location location);
 
-    @Query("SELECT * FROM Location WHERE workoutId = :workoutId AND username = :username")
-    List<Location> getAll(int workoutId, String username);
+    @Query("SELECT * FROM Location WHERE username = :username")
+    List<Location> getAll(String username);
 
-    @Query("SELECT * FROM Location WHERE workoutId = :workoutId AND username = :username")
-    LiveData<List<Location>> getAllLiveData(int workoutId, String username);
+    @Query("SELECT * FROM Location WHERE username = :username")
+    LiveData<List<Location>> getAllLiveData(String username);
 }

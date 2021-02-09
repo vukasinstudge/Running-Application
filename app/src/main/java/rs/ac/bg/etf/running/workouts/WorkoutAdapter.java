@@ -11,14 +11,26 @@ import java.util.List;
 
 import rs.ac.bg.etf.running.data.Workout;
 import rs.ac.bg.etf.running.databinding.ViewHolderWorkoutBinding;
+import rs.ac.bg.etf.running.routes.RouteAdapter;
+import rs.ac.bg.etf.running.routes.RouteViewModel;
 
 public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.WorkoutViewHolder> {
 
     private List<Workout> workoutList = new ArrayList<>();
     private List<Workout> everyone = new ArrayList<>();
 
-    public WorkoutAdapter() {
+    public interface Callback<T> {
+        void invoke(T parameter);
+    }
 
+    private final WorkoutViewModel workoutViewModel;
+    private final WorkoutAdapter.Callback<Integer> callbackDescription;
+
+    public WorkoutAdapter(
+            WorkoutViewModel workoutViewModel,
+            WorkoutAdapter.Callback<Integer> callbackDescription) {
+        this.workoutViewModel = workoutViewModel;
+        this.callbackDescription = callbackDescription;
     }
 
     public void setWorkoutList(List<Workout> workoutList) {
@@ -60,6 +72,12 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.WorkoutV
         public WorkoutViewHolder(@NonNull ViewHolderWorkoutBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
+
+            binding.workoutDetailsButton.setOnClickListener(view -> {
+                int workoutIndex = getAdapterPosition();
+                callbackDescription.invoke(workoutIndex);
+            });
+
         }
 
         public void bind(Workout workout) {

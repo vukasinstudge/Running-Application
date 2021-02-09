@@ -1,5 +1,7 @@
 package rs.ac.bg.etf.running.workouts;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -15,17 +17,22 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.Date;
+import java.util.List;
 
 import dagger.hilt.android.AndroidEntryPoint;
 import rs.ac.bg.etf.running.MainActivity;
 import rs.ac.bg.etf.running.R;
+import rs.ac.bg.etf.running.data.Location;
 import rs.ac.bg.etf.running.databinding.FragmentWorkoutListBinding;
+import rs.ac.bg.etf.running.routes.RouteAdapter;
+import rs.ac.bg.etf.running.routes.RouteBrowseFragmentDirections;
 
 @AndroidEntryPoint
 public class WorkoutListFragment extends Fragment {
 
     private FragmentWorkoutListBinding binding;
     private WorkoutViewModel workoutViewModel;
+    private LocationViewModel locationViewModel;
     private NavController navController;
     private MainActivity mainActivity;
 
@@ -35,12 +42,16 @@ public class WorkoutListFragment extends Fragment {
         // Required empty public constructor
     }
 
+    private List<Location> locationList;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         mainActivity = (MainActivity) requireActivity();
         workoutViewModel = new ViewModelProvider(mainActivity).get(WorkoutViewModel.class);
+        locationViewModel = new ViewModelProvider(mainActivity).get(LocationViewModel.class);
+
     }
 
     @Override
@@ -50,6 +61,12 @@ public class WorkoutListFragment extends Fragment {
             Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentWorkoutListBinding.inflate(inflater, container, false);
+
+        locationViewModel.refreshLocations();
+
+        locationViewModel.getLocations().observe(mainActivity, locations -> {
+            locationList = locations;
+        });
 
         binding.toolbar.inflateMenu(R.menu.menu_workout_list_options);
         binding.toolbar.setOnMenuItemClickListener(menuItem -> {
@@ -61,7 +78,15 @@ public class WorkoutListFragment extends Fragment {
             return false;
         });
 
-        WorkoutAdapter workoutAdapter = new WorkoutAdapter();
+        WorkoutAdapter workoutAdapter = new WorkoutAdapter(
+                workoutViewModel,
+                workoutIndex -> {
+                    WorkoutListFragmentDirections.ActionShowWorkoutDetails action =
+                            WorkoutListFragmentDirections.actionShowWorkoutDetails();
+                    action.setWorkoutIndex(workoutIndex);
+                    navController.navigate(action);
+                }
+        );
         workoutViewModel.getWorkoutList().observe(
                 getViewLifecycleOwner(),
                 workoutAdapter::setWorkoutList);

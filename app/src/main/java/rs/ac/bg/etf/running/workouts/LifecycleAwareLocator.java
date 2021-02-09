@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -50,6 +51,8 @@ public class LifecycleAwareLocator implements DefaultLifecycleObserver {
 
                 MainActivity.getLatitude().add(latitude);
                 MainActivity.getLongitude().add(longitude);
+
+                Toast.makeText(MainActivity.getStaticMain(), "" + location.getLongitude(), Toast.LENGTH_SHORT).show();
 
                 OpenWeatherMapService openWeatherMapService = new OpenWeatherMapService();
                 openWeatherMapService.getCurrentWeather(latitude, longitude);
