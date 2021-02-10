@@ -116,4 +116,17 @@
     <string name="high_filter">Do</string>
     <string name="no_filter_sort_label">Filter isključen / Sort isključen</string>
 
+    <!-- Alarm -->
+    <string name="new_alarm_toolbar_title">Novi Alarm</string>
+    <string name="Alarm">Alarm</string>
+
+    <!-- Stats -->
+    <string name="challenges_title">Izazovi</string>
+    <string name="stats_title">Statistika</string>
+    <string name="number_of_workouts_prefix">\Broj treninga: </string>
+    <string name="total_steps_prefix">Ukupno koraka: </string>
+    <string name="longest_distance_prefix">Najveća distanca: </string>
+    <string name="average_duration_prefix">Prosečno trajanje: </string>
+    <string name="statistics_fab_title">Statistika</string>
+
 </resources>

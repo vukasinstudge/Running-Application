@@ -125,23 +125,27 @@ public class WorkoutStartFragment extends Fragment {
         binding.cancel.setOnClickListener(view -> cancelWorkout());
 
         binding.pause.setOnClickListener(view -> {
+            if (MainActivity.getMusicPlaying() == 0) return;
             MediaPlayer mediaPlayer = LifecycleAwarePlayer.getStaticMediaPlayer();
             paused = true;
             mediaPlayer.pause();
         });
 
         binding.resume.setOnClickListener(view -> {
+            if (MainActivity.getMusicPlaying() == 0) return;
             MediaPlayer mediaPlayer = LifecycleAwarePlayer.getStaticMediaPlayer();
             paused = false;
             mediaPlayer.start();
         });
 
         binding.next.setOnClickListener(view -> {
+            if (MainActivity.getMusicPlaying() == 0) return;
             MediaPlayer mediaPlayer = LifecycleAwarePlayer.getStaticMediaPlayer();
 
             String songs = MainActivity.getCurrPlaylist().getSongs();
+            String[] songsSplit = songs.split("/");
             indexSongs = WorkoutService.getIndexSongs();
-            if (indexSongs >= songs.length()) {
+            if (indexSongs >= songsSplit.length) {
                 Toast.makeText(mainActivity, "This is the last song!", Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -150,7 +154,7 @@ public class WorkoutStartFragment extends Fragment {
             mediaPlayer.stop();
             mediaPlayer.reset();
             String song = "";
-            int num = songs.charAt(indexSongs) - '0';
+            int num = Integer.parseInt(songsSplit[indexSongs]);
             int index = 0;
             for (String strFile : mainActivity.getFilesDir().list()) {
                 if (num == index) song = strFile;
@@ -185,9 +189,11 @@ public class WorkoutStartFragment extends Fragment {
         });
 
         binding.previous.setOnClickListener(view -> {
+            if (MainActivity.getMusicPlaying() == 0) return;
             MediaPlayer mediaPlayer = LifecycleAwarePlayer.getStaticMediaPlayer();
 
             String songs = MainActivity.getCurrPlaylist().getSongs();
+            String[] songsSplit = songs.split("/");
             indexSongs = WorkoutService.getIndexSongs();
             if (indexSongs <= 1) {
                 Toast.makeText(mainActivity, "This is the first song!", Toast.LENGTH_SHORT).show();
@@ -200,7 +206,7 @@ public class WorkoutStartFragment extends Fragment {
             mediaPlayer.stop();
             mediaPlayer.reset();
             String song = "";
-            int num = songs.charAt(indexSongs) - '0';
+            int num = Integer.parseInt(songsSplit[indexSongs]);
             int index = 0;
             for (String strFile : mainActivity.getFilesDir().list()) {
                 if (num == index) song = strFile;
@@ -325,6 +331,7 @@ public class WorkoutStartFragment extends Fragment {
     }
 
     private void finishWorkout() {
+        MainActivity.setMusicPlaying(1);
         long startTimestamp = sharedPreferences.getLong(START_TIMESTAMP_KEY, new Date().getTime());
         long elapsed = new Date().getTime() - startTimestamp;
         double minutes = elapsed / (1000.0 * 60);
@@ -369,6 +376,7 @@ public class WorkoutStartFragment extends Fragment {
     }
 
     private void stopWorkout() {
+        MainActivity.setMusicPlaying(1);
         Intent intent = new Intent();
         intent.setClass(mainActivity, WorkoutService.class);
         mainActivity.stopService(intent);

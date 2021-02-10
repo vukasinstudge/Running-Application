@@ -115,6 +115,7 @@ public class LoginFragment extends Fragment {
                     return;
                 }
             }
+            Toast.makeText(mainActivity, "Registration succesful!", Toast.LENGTH_SHORT).show();
             loginViewModel.insertUser(new User(
                     binding.usernameRegister.getEditText().getText().toString(),
                     binding.email.getEditText().getText().toString(),

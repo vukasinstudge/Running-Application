@@ -132,6 +132,8 @@ public class WorkoutService extends LifecycleService {
                     measurer.start(this);
                     stepCounter.start(this);
 
+                    MainActivity.setMusicPlaying(1);
+
                     setStaticService(this);
                     setStaticLocator(locator);
 
@@ -146,12 +148,13 @@ public class WorkoutService extends LifecycleService {
                 player.getMediaPlayer().setOnCompletionListener(mp -> {
                     player.getMediaPlayer().reset();
                     String songs = MainActivity.getCurrPlaylist().getSongs();
+                    String[] songsSplit = songs.split("/");
                     File filesDir = MainActivity.getStaticMain().getFilesDir();
                     int indexLambda = 0;
                     String songForShow = "";
-                    if(indexSongs < songs.length())
+                    if(indexSongs < songsSplit.length)
                     {
-                        int num = songs.charAt(indexSongs) - '0';
+                        int num = Integer.parseInt(songsSplit[indexSongs]);
                         for (String strFile : filesDir.list()) {
                             if (num == indexLambda) {
                                 try {
@@ -190,6 +193,7 @@ public class WorkoutService extends LifecycleService {
                     }
                     else
                     {
+                        MainActivity.setMusicPlaying(0);
                         indexSongs = 1;
                         TextView tw = (TextView) MainActivity.getStaticMain().findViewById(R.id.song_name);
                         tw.setText(getResources().getString(R.string.empty_song));

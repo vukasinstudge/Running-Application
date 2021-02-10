@@ -16,4 +16,9 @@
         android:icon="@drawable/baseline_sort_24"
         android:title="@string/workout_list_fab_text_filter" />
 
+    <item
+        android:id="@+id/workout_fab_stats"
+        android:icon="@drawable/baseline_bar_chart_black_24"
+        android:title="@string/statistics_fab_title" />
+
 </menu>

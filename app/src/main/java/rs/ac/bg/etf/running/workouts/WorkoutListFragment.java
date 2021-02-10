@@ -135,6 +135,11 @@ public class WorkoutListFragment extends Fragment {
                                 binding.filterSortLabel.setText(sb.toString());
                             });
                     return false;
+                case R.id.workout_fab_stats:
+                    workoutViewModel.setFilter(-1, 1000000);
+                    workoutViewModel.notSort();
+                    navController.navigate(WorkoutListFragmentDirections.statsWorkout());
+                    return false;
             }
             return true;
         });

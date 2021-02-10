@@ -101,9 +101,10 @@ public class PlaylistCreateFragment extends Fragment {
             for (String strFile : files.list()) {
                 TableRow row = (TableRow) binding.checkboxHolder.findViewById(index);
                 CheckBox checkbox = (CheckBox) row.getChildAt(0);
-                if (checkbox.isChecked()) sb.append(index);
+                if (checkbox.isChecked()) sb.append(index).append('/');
                 index++;
             }
+            sb.deleteCharAt(sb.length() - 1);
             songs = sb.toString();
 
             if (!(name.equals("") || songs.equals(""))) {

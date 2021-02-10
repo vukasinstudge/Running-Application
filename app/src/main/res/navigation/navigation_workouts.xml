@@ -17,6 +17,9 @@
             android:id="@+id/start_workout"
             app:destination="@id/workout_start" />
         <action
+            android:id="@+id/stats_workout"
+            app:destination="@id/workout_stats" />
+        <action
             android:id="@+id/action_show_workout_details"
             app:destination="@id/workout_details" />
     </fragment>
@@ -32,6 +35,12 @@
         android:name="rs.ac.bg.etf.running.workouts.WorkoutStartFragment"
         android:label="fragment_workout_start"
         tools:layout="@layout/fragment_workout_start" />
+
+    <fragment
+        android:id="@+id/workout_stats"
+        android:name="rs.ac.bg.etf.running.workouts.WorkoutStatisticFragment"
+        android:label="fragment_workout_statistic"
+        tools:layout="@layout/fragment_workout_statistic" />
 
     <fragment
         android:id="@+id/workout_details"

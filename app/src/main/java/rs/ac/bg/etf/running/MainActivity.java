@@ -76,6 +76,16 @@ public class MainActivity extends AppCompatActivity {
     private static String currUsername = "";
     private static Playlist currPlaylist = null;
 
+    public static int musicPlaying = 0;
+
+    public static int getMusicPlaying() {
+        return musicPlaying;
+    }
+
+    public static void setMusicPlaying(int musicPlaying) {
+        MainActivity.musicPlaying = musicPlaying;
+    }
+
     public static Playlist getCurrPlaylist() {
         return currPlaylist;
     }
@@ -177,6 +187,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        workoutViewModel.notSort();
+        workoutViewModel.setFilter(-1, 1000000);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {

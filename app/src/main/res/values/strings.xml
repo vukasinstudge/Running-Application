@@ -120,4 +120,14 @@
     <string name="new_alarm_toolbar_title">New Alarm</string>
     <string name="Alarm">Alarm</string>
 
+
+    <!-- Stats -->
+    <string name="challenges_title">Challenges</string>
+    <string name="stats_title">Stats</string>
+    <string name="number_of_workouts_prefix">\Number of workouts: </string>
+    <string name="total_steps_prefix">Total steps: </string>
+    <string name="longest_distance_prefix">Longest distance: </string>
+    <string name="average_duration_prefix">Average duration: </string>
+    <string name="statistics_fab_title">Statistics</string>
+
 </resources>

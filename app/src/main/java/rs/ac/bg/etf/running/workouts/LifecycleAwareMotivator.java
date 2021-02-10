@@ -36,7 +36,7 @@ public class LifecycleAwareMotivator implements DefaultLifecycleObserver {
             message.set(motivationMessages[0]);
         }
 
-        Handler handler = new Handler(Looper.getMainLooper());
+        /*Handler handler = new Handler(Looper.getMainLooper());
 
         timer.schedule(new TimerTask() {
             @Override
@@ -46,7 +46,7 @@ public class LifecycleAwareMotivator implements DefaultLifecycleObserver {
                         message.get(),
                         Toast.LENGTH_SHORT).show());
             }
-        }, 0, 7000);
+        }, 0, 7000);*/
     }
 
     public void changeMessage(Context context) {

@@ -15,7 +15,7 @@ public abstract class RunDatabase extends RoomDatabase {
     public abstract PlaylistDao playlistDao();
     public abstract LocationDao locationDao();
 
-    private static final String DATABASE_NAME = "run-app11.db";
+    private static final String DATABASE_NAME = "run-app13.db";
     private static RunDatabase instance = null;
 
     public static RunDatabase getInstance(Context context) {

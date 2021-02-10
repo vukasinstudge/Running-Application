@@ -65,7 +65,8 @@ public class PlaylistAdapter extends RecyclerView.Adapter<rs.ac.bg.etf.running.m
 
         public void bind(Playlist playlist) {
             binding.playlistName.setText(playlist.getName());
-            binding.playlistSongNumber.setText(playlist.getSongs().length() + " songs");
+            String[] songsSplit = playlist.getSongs().split("/");
+            binding.playlistSongNumber.setText(songsSplit.length + " songs");
             binding.chooseButton.setOnClickListener(view -> {
                 playlistViewModel.setCurrentPlaylist(playlist);
                 MainActivity.setCurrPlaylist(playlist);

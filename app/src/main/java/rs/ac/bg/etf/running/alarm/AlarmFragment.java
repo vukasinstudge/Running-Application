@@ -103,7 +103,7 @@ public class AlarmFragment extends Fragment {
             Calendar alarmCalendar = Calendar.getInstance();
 
             alarmCalendar.set(Calendar.DAY_OF_WEEK, weekday);
-            alarmCalendar.set(Calendar.HOUR, hour);
+            alarmCalendar.set(Calendar.HOUR_OF_DAY, hour);
             alarmCalendar.set(Calendar.MINUTE, minute);
 
             Long alarmTime = alarmCalendar.getTimeInMillis();
