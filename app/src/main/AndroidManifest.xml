@@ -26,6 +26,7 @@
             </intent-filter>
         </activity>
         <service android:name=".workouts.WorkoutService" />
+        <receiver android:name=".alarm.ReminderBroadcast" />
     </application>
 
 </manifest>

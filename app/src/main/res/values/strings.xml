@@ -116,4 +116,8 @@
     <string name="high_filter">High</string>
     <string name="no_filter_sort_label">Filter off / Sort off</string>
 
+    <!-- Alarm -->
+    <string name="new_alarm_toolbar_title">New Alarm</string>
+    <string name="Alarm">Alarm</string>
+
 </resources>

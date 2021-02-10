@@ -48,6 +48,10 @@ public class OpenWeatherMapService {
                     @NonNull Response<CurrentWeatherModel> response) {
                 if (response.isSuccessful()) {
                     CurrentWeatherModel currentWeatherModel = response.body();
+                    String weatherString = "Temperature: " + currentWeatherModel.main.temp + " C";
+                    weatherString += ", Feels like: " + currentWeatherModel.main.feels_like + " C";
+                    weatherString += ", Humidity: " + currentWeatherModel.main.humidity + "%";
+                    MainActivity.setCurrentWeatherModel(weatherString);
                     Log.d(MainActivity.LOG_TAG, currentWeatherModel.toString());
                 }
             }

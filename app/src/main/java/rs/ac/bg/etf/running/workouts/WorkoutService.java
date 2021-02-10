@@ -57,7 +57,7 @@ public class WorkoutService extends LifecycleService {
     private Timer timer;
 
     public static final String INTENT_ACTION_START = "rs.ac.bg.etf.running.workouts.START";
-    public static final String INTENT_ACTION_POWER = "rs.ac.bg.etf.running.workouts.POWER";
+    public static final String INTENT_ACTION_LOCATION = "rs.ac.bg.etf.running.workouts.LOCATION";
 
     private static final String NOTIFICATION_CHANNEL_ID = "workout-notification-channel";
     private static final int NOTIFICATION_ID = 1;
@@ -118,8 +118,10 @@ public class WorkoutService extends LifecycleService {
         super.onStartCommand(intent, flags, startId);
         Log.d(MainActivity.LOG_TAG, "WorkoutService.onStartCommand()");
 
-        createNotificationChannel();
-        startForeground(NOTIFICATION_ID, getNotification());
+        if (intent.getAction() == INTENT_ACTION_START) {
+            createNotificationChannel();
+            startForeground(NOTIFICATION_ID, getNotification());
+        }
 
         switch (intent.getAction()) {
             case INTENT_ACTION_START:
@@ -195,11 +197,13 @@ public class WorkoutService extends LifecycleService {
                     }
                 });
                 break;
-            case INTENT_ACTION_POWER:
-                if (serviceStarted) {
-                    motivator.changeMessage(this);
-                }
-                break;
+            case INTENT_ACTION_LOCATION:
+
+                setStaticService(this);
+                setStaticLocator(locator);
+                locator.getLocation(this);
+
+                return START_STICKY;
         }
 
         return START_REDELIVER_INTENT;
@@ -246,4 +250,5 @@ public class WorkoutService extends LifecycleService {
                 .setColor(ContextCompat.getColor(this, R.color.teal_200))
                 .build();
     }
+
 }

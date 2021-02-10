@@ -9,6 +9,9 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -44,6 +47,8 @@ public class MainActivity extends AppCompatActivity {
     private LoginViewModel loginViewModel;
     private WorkoutViewModel workoutViewModel;
     private LocationViewModel locationViewModel;
+
+    private static String currentWeatherModel = "";
 
     private static ArrayList<Double> latitude = new ArrayList<>();
     private static ArrayList<Double> longitude = new ArrayList<>();
@@ -91,7 +96,6 @@ public class MainActivity extends AppCompatActivity {
         return users;
     }
 
-
     public static long workoutId = 0;
 
     public static long getWorkoutId() {
@@ -102,12 +106,35 @@ public class MainActivity extends AppCompatActivity {
         MainActivity.workoutId = workoutId;
     }
 
+    public static String getCurrentWeatherModel() {
+        return currentWeatherModel;
+    }
+
+    public static void setCurrentWeatherModel(String currentWeatherModel) {
+        MainActivity.currentWeatherModel = currentWeatherModel;
+    }
+
+    private void createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "AlarmChannel";
+            String description = "Channel for alarm";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel("notifyAlarm",
+                    name, importance);
+            channel.setDescription(description);
+
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        createNotificationChannel();
         MainActivity.setStaticMain(this);
 
         loginViewModel = new ViewModelProvider(this).get(LoginViewModel.class);
@@ -172,7 +199,8 @@ public class MainActivity extends AppCompatActivity {
                 R.navigation.navigation_routes,
                 R.navigation.navigation_workouts,
                 R.navigation.navigation_calories,
-                R.navigation.navigation_playlists
+                R.navigation.navigation_playlists,
+                R.navigation.navigation_alarm
         };
         navDrawerUtil.setup(
                 binding.navView,
