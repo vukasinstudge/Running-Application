@@ -331,7 +331,7 @@ public class WorkoutStartFragment extends Fragment {
     }
 
     private void finishWorkout() {
-        MainActivity.setMusicPlaying(1);
+        MainActivity.setMusicPlaying(0);
         long startTimestamp = sharedPreferences.getLong(START_TIMESTAMP_KEY, new Date().getTime());
         long elapsed = new Date().getTime() - startTimestamp;
         double minutes = elapsed / (1000.0 * 60);
@@ -376,7 +376,7 @@ public class WorkoutStartFragment extends Fragment {
     }
 
     private void stopWorkout() {
-        MainActivity.setMusicPlaying(1);
+        MainActivity.setMusicPlaying(0);
         Intent intent = new Intent();
         intent.setClass(mainActivity, WorkoutService.class);
         mainActivity.stopService(intent);
